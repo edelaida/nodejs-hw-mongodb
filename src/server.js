@@ -42,8 +42,9 @@ app.get('/contacts', async (req, res)=> {
     //res.send({ data: contact });
     if (!contact) {
       res.status(400).json({
-        message:'Siudent not found'
-      })
+        message: 'Siudent not found'
+      });
+      return;
     };
     res.status(200).json({
       status: 200,
