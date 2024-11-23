@@ -4,7 +4,6 @@ import cors from 'cors';
 import {env} from './utils/env.js'
 import { getAllContacts, getContactById } from "./services/contacts.js";
 
-
 const PORT = Number(env('PORT', '3000'));
 
 export const setupServer = () => {
@@ -20,16 +19,9 @@ app.use(
     }),
   );
 
-// app.get('/', (req, res)=> {
-//     res.json({
-//         message: 'Hello world!',
-//       });    
-// });
-
 app.get('/contacts', async (req, res)=> {
   const contacts = await getAllContacts(); 
-  //res.send({ data: contacts });
-  res.status(200).json({
+   res.status(200).json({
     status: 200,
     message: "Successfully found contacts!",
     data: contacts,
@@ -39,7 +31,6 @@ app.get('/contacts', async (req, res)=> {
   app.get('/contacts/:contactId', async (req, res) => {
     const { contactId } = req.params;
   const contact = await getContactById(contactId); 
-    //res.send({ data: contact });
     if (!contact) {
       res.status(400).json({
         message: 'Siudent not found'
