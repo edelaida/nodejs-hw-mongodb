@@ -4,7 +4,7 @@ import { UsersCollection } from "../db/models/user.js";
 
 export const authenticate = async (req, res, next) => {
     const authHeader = req.get('Authorization');
-
+    
     if (!authHeader) {
         next(createHttpError(401, 'Please provider Authorizaton header'));
         return;
