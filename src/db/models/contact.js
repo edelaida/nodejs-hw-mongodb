@@ -1,4 +1,3 @@
-//mport { required } from "joi";
 import { model, Schema } from "mongoose";
 
 const contactsSchema = new Schema(
@@ -28,7 +27,8 @@ const contactsSchema = new Schema(
         },
         userId: {
             type: Schema.Types.ObjectId,
-            ref: 'users'            
+            ref: 'users', 
+            required: true,
         },
     },
     {
