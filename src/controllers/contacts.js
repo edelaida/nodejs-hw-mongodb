@@ -13,7 +13,6 @@ export const getContactsController = async (req, res, next) => {
   try { 
     const { page, perPage } = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query);
-    //const userId = req.user._id;
     const contacts = await getAllContacts({
       page,
       perPage,
