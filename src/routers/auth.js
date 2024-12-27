@@ -16,6 +16,7 @@ import {
 } from "../validation/auth.js";
 import { validateBody } from "../middlewares/validateBody.js";
 
+
 const router = Router();
 router.post(
     '/register',
@@ -34,12 +35,12 @@ router.post('/logout',
 router.post('/refresh',
     ctrlWrapper(refreshUserSessionController));  
     
-router.post('/request-reset-email',
+router.post('/send-reset-email',
     validateBody(requestResetEmailSchema),
     ctrlWrapper(requestResetEmailController),
 );   
 
-router.post('/reset-password',
+router.post('/reset-pwd',
     validateBody(resetPasswordShema),
     ctrlWrapper(resetPasswordController),
 );

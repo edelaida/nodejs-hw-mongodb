@@ -8,6 +8,9 @@ import {
 } from "../services/contacts.js";
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
+import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js";
+import { env } from "../utils/env.js";
+import { saveFileToUpLoaDir } from "../utils/saveFileToUpLoadDir.js";
 
 export const getContactsController = async (req, res, next) => {
   try { 
@@ -93,8 +96,23 @@ export const upsertContactController = async (req, res, next) => {
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const userId = req.user._id;
-  const result = await updateContact(contactId, userId, req.body);
+  const photo = req.file;
+  let photoUrl;
 
+  if (photo) {
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+          photoUrl = await saveFileToCloudinary(photo);
+     } else {
+          photoUrl = await saveFileToUpLoaDir(photo);
+      }
+   }
+    
+  // const result = await updateContact(contactId, userId, req.body);
+  const result = await updateContact(contactId, userId, {
+    ...req.body,
+    photo: photoUrl,    
+  });
+ 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
     return;
@@ -105,3 +123,18 @@ export const patchContactController = async (req, res, next) => {
     data: result.contact,
   });
 };
+
+
+
+/* в photo лежить обʼєкт файлу
+		{
+		  fieldname: 'photo',
+		  originalname: 'download.jpeg',
+		  encoding: '7bit',
+		  mimetype: 'image/jpeg',
+		  destination: '/Users/borysmeshkov/Projects/goit-study/students-app/temp',
+		  filename: '1710709919677_download.jpeg',
+		  path: '/Users/borysmeshkov/Projects/goit-study/students-app/temp/1710709919677_download.jpeg',
+		  size: 7
+	  }
+	*/
