@@ -48,6 +48,17 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res) => {
+  const photo = req.file;
+  let photoUrl;
+
+  if (photo) {
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+          photoUrl = await saveFileToCloudinary(photo);
+     } else {
+          photoUrl = await saveFileToUpLoaDir(photo);
+      }
+   }
+    
     const rezult = {
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
@@ -55,15 +66,11 @@ export const createContactController = async (req, res) => {
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
     userId: req.user._id,
-    photo: req.file,
+    photo: photoUrl,
   };
-  console.log(rezult);
-  
+    
   const contact = await createContact(rezult);  
 
-  // const contact = await createContact(req.body, req.user._id, req.file);
-  console.log(contact);
-  
   res.status(201).json({
     statys: 201,
     message: 'Successfully created a contact!',
