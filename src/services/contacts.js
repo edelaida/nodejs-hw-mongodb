@@ -12,8 +12,7 @@ export const getAllContacts = async ({
 }) => {
     const limit = perPage;
     const skip = (page - 1) * perPage;
-    console.log(userId);
-    
+        
     const contactsQuery = ContactsCollection.find({userId});
     const contactsCount = await ContactsCollection.find({userId})
         .merge(contactsQuery)

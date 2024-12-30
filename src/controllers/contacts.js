@@ -53,16 +53,23 @@ export const createContactController = async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     email: req.body.email,
     isFavourite: req.body.isFavourite,
-    contactcType: req.body.contactcType,
+    contactType: req.body.contactType,
     userId: req.user._id,
+    photo: req.file,
   };
+  console.log(rezult);
+  
   const contact = await createContact(rezult);  
+
+  // const contact = await createContact(req.body, req.user._id, req.file);
+  console.log(contact);
+  
   res.status(201).json({
     statys: 201,
     message: 'Successfully created a contact!',
     data: contact,
   });
-};
+}; 
 
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params; 
@@ -107,7 +114,6 @@ export const patchContactController = async (req, res, next) => {
       }
    }
     
-  // const result = await updateContact(contactId, userId, req.body);
   const result = await updateContact(contactId, userId, {
     ...req.body,
     photo: photoUrl,    
@@ -125,16 +131,3 @@ export const patchContactController = async (req, res, next) => {
 };
 
 
-
-/* в photo лежить обʼєкт файлу
-		{
-		  fieldname: 'photo',
-		  originalname: 'download.jpeg',
-		  encoding: '7bit',
-		  mimetype: 'image/jpeg',
-		  destination: '/Users/borysmeshkov/Projects/goit-study/students-app/temp',
-		  filename: '1710709919677_download.jpeg',
-		  path: '/Users/borysmeshkov/Projects/goit-study/students-app/temp/1710709919677_download.jpeg',
-		  size: 7
-	  }
-	*/
