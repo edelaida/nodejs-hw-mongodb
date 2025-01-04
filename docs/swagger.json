@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "https://contacts-mongodb-yaoj.onrender.com"
     }
   ],
   "tags": [
@@ -150,6 +150,9 @@
           "401": {
             "$ref": "#/components/responses/401"
           },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
           "500": {
             "$ref": "#/components/responses/500"
           }
@@ -177,12 +180,7 @@
                   "phoneNumber",
                   "contactType"
                 ],
-                "properties": {
-                  "_id": {
-                    "description": "Contact's id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
+                "properties": {                  
                   "name": {
                     "description": "Contact's name",
                     "type": "string",
@@ -212,12 +210,7 @@
                     "description": "Contact's favourite",
                     "type": "boolean",
                     "example": false
-                  },
-                  "userId": {
-                    "description": "Contact's userId",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
+                  },                  
                   "photo": {
                     "description": "Contact's photo",
                     "type": "string",
@@ -260,6 +253,9 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -321,6 +317,9 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -357,12 +356,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "_id": {
-                    "description": "Contact's id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
+                "properties": {                  
                   "name": {
                     "description": "Contact's name",
                     "type": "string",
@@ -392,12 +386,7 @@
                     "description": "Contact's favourite",
                     "type": "boolean",
                     "example": false
-                  },
-                  "userId": {
-                    "description": "Contact's userId",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
+                  },                  
                   "photo": {
                     "description": "Contact's photo",
                     "type": "string",
@@ -409,8 +398,8 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Creates a contact",
+          "200": {
+            "description": "Update a contact",
             "content": {
               "application/json": {
                 "schema": {
@@ -423,11 +412,11 @@
                   "properties": {
                     "status": {
                       "type": "integer",
-                      "example": 201
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully created a contact!"
+                      "example": "Successfully patched a contact!"
                     },
                     "data": {
                       "type": "object",
@@ -476,8 +465,14 @@
           "204": {
             "description": "Delete contact by id"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
